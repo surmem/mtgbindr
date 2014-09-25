@@ -2,8 +2,7 @@
   // global app namespace variable
   window.bindrCfg = {
     i18n: {
-      bindrName: "mtgbindr",
-      bindrNamePlural: "bindrs"
+      bindrName: "mtgbindr"
     }
   };
 
