@@ -7,15 +7,58 @@
   <link rel="stylesheet" href="css/bindr.min.css"/>
 </head>
 <body role="document" ng-app="bindr">
-
-<!-- sign in dialog -->
-<div id="bindr-sign-in-dlg" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="bindr-sign-in-title" aria-hidden="true"
-    ng-controller="NavigationController as nav">
+<!-- sign up dialog -->
+<div id="bindr-sign-up-dlg" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="bindr-sign-up-title" aria-hidden="true"
+     ng-controller="NavigationCtrl as nav">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{nav.i18n.close}}</span></button>
-        <h4 class="modal-title" id="bindr-sign-in-title">{{nav.i18n.signInTitle}}</h4>
+        <span class="modal-title" id="bindr-sign-up-title">{{nav.i18n.signUpTitle}}</span>
+      </div>
+      <div class="modal-body">
+        <div ng-show="nav.signUpError" class="alert alert-danger alert-dismissable" role="alert">
+          <button type="button" class="close" ng-click="nav.signUpError = false" aria-hidden="true">&times;</button>
+          <span id="bindr-sign-up-error" ></span>
+        </div>
+        <div class="property">
+          <input id="signup-firstname" class="form-control fit_width" type="text" value="" name="firstname" placeholder="{{nav.i18n.firstname}}" ng-keydown="nav.checkForEnter($event,'signup')">
+        </div>
+        <div class="property">
+          <input id="signup-lastname" class="form-control fit_width" type="text" value="" name="lastname" placeholder="{{nav.i18n.lastname}}" ng-keydown="nav.checkForEnter($event,'signup')">
+        </div>
+        <div class="property">
+          <input id="signup-email" class="form-control fit_width" type="text" value="" name="email" placeholder="{{nav.i18n.email}}" ng-keydown="nav.checkForEnter($event,'signup')">
+        </div>
+        <div class="property">
+          <input id="signup-confirmemail" class="form-control fit_width" type="text" value="" name="confirmemail" placeholder="{{nav.i18n.confirmEmail}}" ng-keydown="nav.checkForEnter($event,'signup')">
+        </div>
+        <div class="property">
+          <input id="signup-username" class="form-control fit_width" type="text" value="" name="username" placeholder="{{nav.i18n.chooseUsername}}" ng-keydown="nav.checkForEnter($event,'signup')">
+        </div>
+        <div class="property">
+          <input id="signup-password" class="form-control fit_width" type="password" value="" name="password" placeholder="{{nav.i18n.choosePassword}}" ng-keydown="nav.checkForEnter($event,'signup')">
+        </div>
+        <div class="last_property">
+          <input id="signup-confirmpassword" class="form-control fit_width" type="password" value="" name="confirmpassword" placeholder="{{nav.i18n.confirmPassword}}" ng-keydown="nav.checkForEnter($event,'signup')">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="nav.signUp()">{{nav.i18n.signUp}}</button>
+        <button type="button" class="btn btn-default" ng-click="nav.hideSignUp()">{{nav.i18n.cancel}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- sign in dialog -->
+<div id="bindr-sign-in-dlg" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="bindr-sign-in-title" aria-hidden="true"
+    ng-controller="NavigationCtrl as nav">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{nav.i18n.close}}</span></button>
+        <span class="modal-title" id="bindr-sign-in-title">{{nav.i18n.signInTitle}}</span>
       </div>
       <div class="modal-body">
         <div ng-show="nav.signInError" class="alert alert-danger alert-dismissable" role="alert">
@@ -23,13 +66,14 @@
           <span id="bindr-sign-in-error" ></span>
         </div>
         <div class="property">
-          <input id="username_input" class="form-control fit_width" type="text" value="" name="username" placeholder="{{nav.i18n.username}}" ng-keydown="nav.checkForEnter($event)">
+          <input id="signin-username" class="form-control fit_width" type="text" value="" name="username" placeholder="{{nav.i18n.username}}" ng-keydown="nav.checkForEnter($event,'signin')">
         </div>
         <div class="last_property">
-          <input id="password_input" class="form-control fit_width" type="password" value="" name="password" placeholder="{{nav.i18n.password}}" ng-keydown="nav.checkForEnter($event)">
+          <input id="signin-password" class="form-control fit_width" type="password" value="" name="password" placeholder="{{nav.i18n.password}}" ng-keydown="nav.checkForEnter($event,'signin')">
         </div>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-link" ng-click="nav.showSignUp()">{{nav.i18n.signUp}}</button>
         <button type="button" class="btn btn-primary" ng-click="nav.signIn()">{{nav.i18n.signIn}}</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">{{nav.i18n.cancel}}</button>
       </div>
@@ -39,12 +83,12 @@
 
 <!-- sign out dialog -->
 <div id="bindr-sign-out-dlg" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="bindr-sign-out-title" aria-hidden="true"
-     ng-controller="NavigationController as nav">
+     ng-controller="NavigationCtrl as nav">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{nav.i18n.close}}</span></button>
-        <h4 class="modal-title" id="bindr-sign-out-title">{{nav.i18n.signOutTitle}}</h4>
+        <span class="modal-title" id="bindr-sign-out-title">{{nav.i18n.signOutTitle}}</span>
       </div>
       <div class="modal-body">
         {{nav.i18n.aboutToSignOut}}<br/>
@@ -58,7 +102,7 @@
   </div>
  </div>
 <!-- navigation -->
-<div class="navbar navbar-default" ng-controller="NavigationController as nav">
+<div class="navbar navbar-default" ng-controller="NavigationCtrl as nav">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">

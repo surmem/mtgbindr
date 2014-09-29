@@ -3,7 +3,8 @@
   window.bindrCfg = {
     i18n: {
       bindrName: "mtgbindr"
-    }
+    },
+    cookie: null
   };
 
   // configure cookie defaults //
